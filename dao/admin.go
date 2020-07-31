@@ -15,13 +15,13 @@ import (
 
 // Admin ...
 type Admin struct {
-	ID       int       `json:"id" gorm:"primary_key" description:"自增主键"`
-	UserName string    `json:"user_name" gorm:"column:user_name" description:"管理员用户名"`
-	Salt     string    `json:"salt" gorm:"column:salt" description:"盐"`
-	Password string    `json:"password" gorm:"column:password" description:"管理员密码"`
-	UpdateAt time.Time `json:"update_at" gorm:"column:update_at" description:"更新时间"`
-	CreateAt time.Time `json:"create_at" gorm:"column:create_at" description:"创建时间"`
-	IsDelete int       `json:"is_delete" gorm:"column:is_delete" description:"账户状态"`
+	ID        int       `json:"id" gorm:"primary_key" description:"自增主键"`
+	UserName  string    `json:"user_name" gorm:"column:user_name" description:"管理员用户名"`
+	Salt      string    `json:"salt" gorm:"column:salt" description:"盐"`
+	Password  string    `json:"password" gorm:"column:password" description:"密码"`
+	UpdatedAt time.Time `json:"update_at" gorm:"column:update_at" description:"更新时间"`
+	CreatedAt time.Time `json:"create_at" gorm:"column:create_at" description:"创建时间"`
+	IsDelete  int       `json:"is_delete" gorm:"column:is_delete" description:"是否删除"`
 }
 
 // TableName 表名
@@ -50,4 +50,9 @@ func (a *Admin) LoginInputParamsCheck(c *gin.Context, tx *gorm.DB, params *dto.A
 		return nil, errors.New("密码不正确")
 	}
 	return adminInfo, nil
+}
+
+// Save 数据库表修改
+func (a *Admin) Save(c *gin.Context, tx *gorm.DB) error {
+	return tx.SetCtx(public.GetGinTraceContext(c)).Save(a).Error
 }
