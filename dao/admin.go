@@ -30,26 +30,21 @@ func (a *Admin) TableName() string {
 }
 
 // Find 数据库表查询
-func (a *Admin) Find(c *gin.Context, tx *gorm.DB, search *Admin) (*Admin, error) {
-	out := &Admin{}
-	err := tx.SetCtx(public.GetGinTraceContext(c)).Where(search).Find(out).Error
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
+func (a *Admin) Find(c *gin.Context, tx *gorm.DB, search *Admin) error {
+	return tx.SetCtx(public.GetGinTraceContext(c)).Where(search).Find(a).Error
 }
 
 // LoginInputParamsCheck 对密码加盐校验
-func (a *Admin) LoginInputParamsCheck(c *gin.Context, tx *gorm.DB, params *dto.AdminLoginInput) (*Admin, error) {
-	adminInfo, err := a.Find(c, tx, &Admin{UserName: params.UserName, IsDelete: 0}) //查询用户名为xxx且未被注销的账户
+func (a *Admin) LoginInputParamsCheck(c *gin.Context, tx *gorm.DB, inputParams *dto.AdminLoginInput) (err error) {
+	err = a.Find(c, tx, &Admin{UserName: inputParams.UserName, IsDelete: 0}) //查询用户名为xxx且未被注销的账户
 	if err != nil {
-		return nil, errors.New("账户不存在或被注销")
+		return errors.New("账户不存在或被注销")
 	}
-	saltPassword := public.GetSaltPassword(adminInfo.Salt, params.Password)
-	if saltPassword != adminInfo.Password {
-		return nil, errors.New("密码不正确")
+	saltPassword := public.GetSaltPassword(a.Salt, inputParams.Password)
+	if saltPassword != a.Password {
+		return errors.New("密码不正确")
 	}
-	return adminInfo, nil
+	return
 }
 
 // Save 数据库表修改

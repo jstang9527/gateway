@@ -26,10 +26,10 @@ func (s *ServiceInfo) TableName() string {
 	return "gateway_service_info"
 }
 
-// ServiceDetail 服务详情 service_info + service_rule
-// 通过serviceInfo的ID查service_rule
-// 得到的结果封装到完全体
-func (s *ServiceInfo) ServiceDetail(c *gin.Context, tx *gorm.DB, search *ServiceInfo) (*ServiceDetail, error) {
+// GetServiceDetail 服务详情 ==> 获得多表查询后的组成的结构体ServiceDetail
+// 通过serviceInfo的外键ID查其他表的关联信息
+// 得到的结果封装到完全体ServiceDetail
+func (s *ServiceInfo) GetServiceDetail(c *gin.Context, tx *gorm.DB, search *ServiceInfo) (*ServiceDetail, error) {
 	httpRule := &HTTPRule{ServiceID: search.ID}
 	httpRule, err := httpRule.Find(c, tx, httpRule)
 	if err != nil && err != gorm.ErrRecordNotFound { //找不到也是正确的
@@ -90,10 +90,10 @@ func (s *ServiceInfo) Save(c *gin.Context, tx *gorm.DB) error {
 func (s *ServiceInfo) PageList(c *gin.Context, tx *gorm.DB, search *dto.ServiceListInput) ([]ServiceInfo, int64, error) {
 	var total int64 = 0
 	list := []ServiceInfo{}
-	offset := (search.PageNo - 1) * search.PageSize
+	offset := (search.PageNo - 1) * search.PageSize //第一页的话就不用偏移了,直接limit查
 	query := tx.SetCtx(public.GetGinTraceContext(c))
 	query = query.Table(s.TableName()).Where("is_delete=0")
-	if search.Info != "" {
+	if search.Info != "" { ///模糊查询
 		query = query.Where("service_name like ? or service_desc like ?", "%"+search.Info+"%", "%"+search.Info+"%")
 	}
 	if err := query.Limit(search.PageSize).Offset(offset).Order("id desc").Find(&list).Error; err != nil && err != gorm.ErrRecordNotFound {

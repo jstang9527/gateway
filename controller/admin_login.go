@@ -13,9 +13,8 @@ import (
 	"github.com/jstang9527/gateway/public"
 )
 
-// AdminLoginController ...
-type AdminLoginController struct {
-}
+// AdminLoginController  登录控制器结果体
+type AdminLoginController struct{}
 
 // AdminLoginRegister 登录控制器
 func AdminLoginRegister(group *gin.RouterGroup) {
@@ -36,13 +35,13 @@ func AdminLoginRegister(group *gin.RouterGroup) {
 // @Router /admin_login/login [post]
 func (a *AdminLoginController) AdminLogin(c *gin.Context) {
 	//1. 请求参数用户名、密码初步校验(必填)
-	params := &dto.AdminLoginInput{}
-	if err := params.BindValidParam(c); err != nil {
+	inputParams := &dto.AdminLoginInput{}
+	if err := inputParams.BindValidParam(c); err != nil {
 		middleware.ResponseError(c, 2000, err)
 		return
 	}
-	//2. 账户密码校验正确性校验
-	//2.1 params.UserName取管理员信息admininfo
+	//2. 账户密码正确性校验
+	//2.1 依据inputParams.UserName从DB取管理员信息admininfo
 	//2.2 admininfo.salt+parmas.Password sha256 =>saltpassword
 	//2.3 判断saltpassword 是否等于admininfo的password
 	tx, err := lib.GetGormPool("default")
@@ -51,7 +50,7 @@ func (a *AdminLoginController) AdminLogin(c *gin.Context) {
 		return
 	}
 	admin := &dao.Admin{}
-	admin, err = admin.LoginInputParamsCheck(c, tx, params)
+	err = admin.LoginInputParamsCheck(c, tx, inputParams)
 	if err != nil {
 		middleware.ResponseError(c, 2002, err)
 		return

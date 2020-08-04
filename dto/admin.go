@@ -9,12 +9,12 @@ import (
 
 // AdminInfoOutput 管理员信息输出
 type AdminInfoOutput struct {
-	ID           int       `json:"id"`
-	UserName     string    `json:"user_name"`
-	LoginTime    time.Time `json:"login_time"`
-	Avatar       string    `json:"avatar"`
-	Introduction string    `json:"introduction"`
-	Roles        []string  `json:"roles"`
+	ID           int       `json:"id"`           //id
+	UserName     string    `json:"user_name"`    //账户
+	LoginTime    time.Time `json:"login_time"`   //登录时间
+	Avatar       string    `json:"avatar"`       //头像
+	Introduction string    `json:"introduction"` //简介
+	Roles        []string  `json:"roles"`        //角色
 }
 
 // ChangePwdInput ...

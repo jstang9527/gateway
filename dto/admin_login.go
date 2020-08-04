@@ -9,7 +9,7 @@ import (
 
 // AdminLoginInput ...
 type AdminLoginInput struct {
-	UserName string `json:"username" form:"username" comment:"账户" example:"账户" validate:"required,is_valid_username"`
+	UserName string `json:"username" form:"username" comment:"账户" example:"账户" validate:"required,valid_username"`
 	Password string `json:"password" form:"password" comment:"密码" example:"密码" validate:"required"`
 }
 

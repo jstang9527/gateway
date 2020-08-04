@@ -35,25 +35,26 @@ func AdminRegister(group *gin.RouterGroup) {
 // @Success 200 {object} middleware.Response{data=dto.AdminInfoOutput} "success"
 // @Router /admin/admin_info [get]
 func (a *AdminController) Admin(c *gin.Context) {
+	// 1.从session中找admin的session信息并转成session结构体
 	sess := sessions.Default(c)
-	sessInfo := sess.Get(public.AdminSessionInfoKey) //获得结构体的interface
+	sessInfo := sess.Get(public.AdminSessionInfoKey)
 	sessInfoStr := fmt.Sprint(sessInfo)
 	adminSessionInfo := &dto.AdminSessionInfo{}
 	if err := json.Unmarshal([]byte(sessInfoStr), adminSessionInfo); err != nil {
 		middleware.ResponseError(c, 3000, err)
 		return
 	}
-	// 1. 读取sessionKey对应的json转换成结构体
-	// 2. 取数据进行封装结构体
-	// 4. 返回信息
+	// 2.从session结构体中取admin基本信息封装输出结构体
 	out := &dto.AdminInfoOutput{
 		ID:           adminSessionInfo.ID,
 		UserName:     adminSessionInfo.UserName,
 		LoginTime:    adminSessionInfo.LoginTime,
-		Avatar:       "https://zan71.com/cdn-img/icon/avatar/admin.icon",
+		Avatar:       "https://zan71.com/cdn-img/icon/avatar/tx.gif",
 		Introduction: "super administrator",
 		Roles:        []string{"admin"},
 	}
+	// + 扩展: 头像、角色、描述等信息可以查数据库再进行封装，以上为写死
+	// 3.返回输出结构体
 	middleware.ResponseSuccess(c, out)
 }
 
@@ -69,8 +70,8 @@ func (a *AdminController) Admin(c *gin.Context) {
 // @Router /admin/change_pwd [post]
 func (a *AdminController) ChangePwd(c *gin.Context) {
 	//1. 请求参数(密码)初步校验(必填)
-	params := &dto.ChangePwdInput{}
-	if err := params.BindValidParam(c); err != nil {
+	inputParams := &dto.ChangePwdInput{}
+	if err := inputParams.BindValidParam(c); err != nil {
 		middleware.ResponseError(c, 3001, err)
 		return
 	}
@@ -83,21 +84,20 @@ func (a *AdminController) ChangePwd(c *gin.Context) {
 		middleware.ResponseError(c, 3002, err)
 		return
 	}
-	//3. sessInfo.ID读取数据库信息 adminInfo
+	//3. sessInfo.ID读取数据库用户信息 adminInfo
 	tx, err := lib.GetGormPool("default")
 	if err != nil {
 		middleware.ResponseError(c, 3003, err)
 		return
 	}
 	adminInfo := &dao.Admin{}
-	fmt.Println(adminSessionInfo.UserName)
-	adminInfo, err = adminInfo.Find(c, tx, &dao.Admin{UserName: adminSessionInfo.UserName})
+	err = adminInfo.Find(c, tx, &dao.Admin{UserName: adminSessionInfo.UserName})
 	if err != nil {
 		middleware.ResponseError(c, 3004, err)
 		return
 	}
 	//4. params.password+admininfo.salt sha256 => saltpassword
-	saltPassword := public.GetSaltPassword(adminInfo.Salt, params.Password)
+	saltPassword := public.GetSaltPassword(adminInfo.Salt, inputParams.Password)
 	//5. saltpassword ==> adminInfo.password 执行数据库保存
 	adminInfo.Password = saltPassword
 	if err := adminInfo.Save(c, tx); err != nil {

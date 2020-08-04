@@ -15,7 +15,7 @@ var (
 	HTTPSrvHandler *http.Server
 )
 
-// HTTPServerRun ...
+// HTTPServerRun 运行Web服务
 func HTTPServerRun() {
 	gin.SetMode(lib.ConfBase.DebugMode)
 	r := InitRouter()
@@ -34,7 +34,7 @@ func HTTPServerRun() {
 	}()
 }
 
-// HTTPServerStop ...
+// HTTPServerStop 终止Web服务
 func HTTPServerStop() {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
