@@ -48,6 +48,62 @@ definitions:
     required:
     - password
     type: object
+  dto.HostListItemOutput:
+    properties:
+      domain:
+        description: 主机名
+        type: string
+      domain_desc:
+        description: 主机描述
+        type: string
+      domain_ip:
+        description: 主机ip
+        type: string
+      domain_os:
+        description: 操作系统
+        type: string
+      domain_type:
+        description: 主机类型:0真机,1云机,2虚拟机
+        type: integer
+      host_desc:
+        description: 宿主机描述
+        type: string
+      host_ip:
+        description: 宿主机ip
+        type: string
+      id:
+        description: id
+        type: integer
+    type: object
+  dto.HostListOutput:
+    properties:
+      list:
+        description: 列表
+        items:
+          $ref: '#/definitions/dto.HostListItemOutput'
+        type: array
+      total:
+        description: 总数
+        type: integer
+    type: object
+  dto.HostStatusOutput:
+    properties:
+      domain:
+        description: 域
+        type: string
+      errmsg:
+        description: 错误信息
+        type: string
+      host_ip:
+        description: 宿主机名
+        type: string
+      isRunning:
+        description: 状态信息 bool
+        type: boolean
+      status:
+        description: 状态信息 bool
+        type: boolean
+    type: object
   dto.ServiceAddHTTPInput:
     properties:
       black_list:
@@ -273,6 +329,170 @@ paths:
       summary: 管理员退出
       tags:
       - 管理员接口
+  /host/control/recover:
+    put:
+      consumes:
+      - application/json
+      description: 还原域
+      operationId: /host/control/recovery
+      parameters:
+      - description: 域名
+        in: query
+        name: domain
+        required: true
+        type: string
+      - description: 宿主机ip
+        in: query
+        name: host_ip
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middleware.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.HostStatusOutput'
+              type: object
+      summary: 还原域
+      tags:
+      - 主机管理
+  /host/control/shutdown:
+    put:
+      consumes:
+      - application/json
+      description: 关闭域
+      operationId: /host/control/shutdown
+      parameters:
+      - description: 域名
+        in: query
+        name: domain
+        required: true
+        type: string
+      - description: 宿主机ip
+        in: query
+        name: host_ip
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middleware.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.HostStatusOutput'
+              type: object
+      summary: 关闭域
+      tags:
+      - 主机管理
+  /host/control/start:
+    put:
+      consumes:
+      - application/json
+      description: 启动域
+      operationId: /host/control/start
+      parameters:
+      - description: 域名
+        in: query
+        name: domain
+        required: true
+        type: string
+      - description: 宿主机ip
+        in: query
+        name: host_ip
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middleware.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.HostStatusOutput'
+              type: object
+      summary: 启动域
+      tags:
+      - 主机管理
+  /host/control/status:
+    get:
+      consumes:
+      - application/json
+      description: 域状态
+      operationId: /host/control/status
+      parameters:
+      - description: 域名
+        in: query
+        name: domain
+        required: true
+        type: string
+      - description: 宿主机ip
+        in: query
+        name: host_ip
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middleware.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.HostStatusOutput'
+              type: object
+      summary: 域状态
+      tags:
+      - 主机管理
+  /host/host_list:
+    get:
+      consumes:
+      - application/json
+      description: 主机列表
+      operationId: /host/host_list
+      parameters:
+      - description: 关键词
+        in: query
+        name: info
+        type: string
+      - description: 每页个数
+        in: query
+        name: page_size
+        required: true
+        type: integer
+      - description: 当前页数
+        in: query
+        name: page_no
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middleware.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.HostListOutput'
+              type: object
+      summary: 主机列表
+      tags:
+      - 主机管理
   /service/service:
     delete:
       consumes:

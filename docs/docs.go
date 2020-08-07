@@ -191,6 +191,272 @@ var doc = `{
                 }
             }
         },
+        "/host/control/recover": {
+            "put": {
+                "description": "还原域",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "主机管理"
+                ],
+                "summary": "还原域",
+                "operationId": "/host/control/recovery",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "域名",
+                        "name": "domain",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "宿主机ip",
+                        "name": "host_ip",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.HostStatusOutput"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/host/control/shutdown": {
+            "put": {
+                "description": "关闭域",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "主机管理"
+                ],
+                "summary": "关闭域",
+                "operationId": "/host/control/shutdown",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "域名",
+                        "name": "domain",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "宿主机ip",
+                        "name": "host_ip",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.HostStatusOutput"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/host/control/start": {
+            "put": {
+                "description": "启动域",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "主机管理"
+                ],
+                "summary": "启动域",
+                "operationId": "/host/control/start",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "域名",
+                        "name": "domain",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "宿主机ip",
+                        "name": "host_ip",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.HostStatusOutput"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/host/control/status": {
+            "get": {
+                "description": "域状态",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "主机管理"
+                ],
+                "summary": "域状态",
+                "operationId": "/host/control/status",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "域名",
+                        "name": "domain",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "宿主机ip",
+                        "name": "host_ip",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.HostStatusOutput"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/host/host_list": {
+            "get": {
+                "description": "主机列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "主机管理"
+                ],
+                "summary": "主机列表",
+                "operationId": "/host/host_list",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "关键词",
+                        "name": "info",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每页个数",
+                        "name": "page_size",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "当前页数",
+                        "name": "page_no",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.HostListOutput"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/service/service": {
             "delete": {
                 "description": "服务删除",
@@ -455,6 +721,84 @@ var doc = `{
                 "password": {
                     "type": "string",
                     "example": "密码"
+                }
+            }
+        },
+        "dto.HostListItemOutput": {
+            "type": "object",
+            "properties": {
+                "domain": {
+                    "description": "主机名",
+                    "type": "string"
+                },
+                "domain_desc": {
+                    "description": "主机描述",
+                    "type": "string"
+                },
+                "domain_ip": {
+                    "description": "主机ip",
+                    "type": "string"
+                },
+                "domain_os": {
+                    "description": "操作系统",
+                    "type": "string"
+                },
+                "domain_type": {
+                    "description": "主机类型:0真机,1云机,2虚拟机",
+                    "type": "integer"
+                },
+                "host_desc": {
+                    "description": "宿主机描述",
+                    "type": "string"
+                },
+                "host_ip": {
+                    "description": "宿主机ip",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "id",
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.HostListOutput": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "description": "列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.HostListItemOutput"
+                    }
+                },
+                "total": {
+                    "description": "总数",
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.HostStatusOutput": {
+            "type": "object",
+            "properties": {
+                "domain": {
+                    "description": "域",
+                    "type": "string"
+                },
+                "errmsg": {
+                    "description": "错误信息",
+                    "type": "string"
+                },
+                "host_ip": {
+                    "description": "宿主机名",
+                    "type": "string"
+                },
+                "isRunning": {
+                    "description": "状态信息 bool",
+                    "type": "boolean"
+                },
+                "status": {
+                    "description": "状态信息 bool",
+                    "type": "boolean"
                 }
             }
         },

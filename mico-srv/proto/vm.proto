@@ -1,0 +1,29 @@
+syntax = "proto3"; // 指定proto版本
+package pb;   // 指定默认包名
+
+// 指定golang包名
+option go_package = "pb";
+
+// 定义VM管理服务
+service VM {
+    // 开启域
+    rpc Start(VMRequest) returns (VMResponse) {}
+    // 关闭域
+    rpc ShutDown(VMRequest) returns (VMResponse) {}
+    // 域状态
+    rpc Running(VMRequest) returns (VMResponse){}
+    // 还原域
+    rpc Recovery(VMRequest) returns (VMResponse){}
+}
+
+// VMRequest 请求结构
+message VMRequest {
+    string domain = 1;
+}
+
+// VMResponse 响应结构
+message VMResponse {
+    bool status = 1;
+    string errmsg =2;
+    bool running =3;
+}
