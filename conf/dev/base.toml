@@ -32,12 +32,12 @@
         color = false
 
 [cluster]
-    cluster_ip="172.31.50.254"
+    cluster_ip="192.168.231.128"
     cluster_port="8880"
     cluster_ssl_port="4880"
 
 [swagger]
     title="gateway swagger API"
     desc="This is a sample server celler server."
-    host="172.31.50.254:8880"
+    host="192.168.231.128:8880"
     base_path=""

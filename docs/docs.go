@@ -191,9 +191,15 @@ var doc = `{
                 }
             }
         },
+<<<<<<< Updated upstream
         "/host/control/recover": {
             "put": {
                 "description": "还原域",
+=======
+        "/grpc": {
+            "put": {
+                "description": "grpc服务更新",
+>>>>>>> Stashed changes
                 "consumes": [
                     "application/json"
                 ],
@@ -201,6 +207,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
+<<<<<<< Updated upstream
                     "主机管理"
                 ],
                 "summary": "还原域",
@@ -272,6 +279,22 @@ var doc = `{
                         "in": "query",
                         "required": true
                     }
+=======
+                    "服务管理"
+                ],
+                "summary": "grpc服务更新",
+                "operationId": "/grpc/update",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ServiceUpdateGrpcInput"
+                        }
+                    }
+>>>>>>> Stashed changes
                 ],
                 "responses": {
                     "200": {
@@ -285,7 +308,11 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
+<<<<<<< Updated upstream
                                             "$ref": "#/definitions/dto.HostStatusOutput"
+=======
+                                            "type": "string"
+>>>>>>> Stashed changes
                                         }
                                     }
                                 }
@@ -293,11 +320,17 @@ var doc = `{
                         }
                     }
                 }
+<<<<<<< Updated upstream
             }
         },
         "/host/control/start": {
             "put": {
                 "description": "启动域",
+=======
+            },
+            "post": {
+                "description": "grpc服务添加",
+>>>>>>> Stashed changes
                 "consumes": [
                     "application/json"
                 ],
@@ -305,6 +338,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
+<<<<<<< Updated upstream
                     "主机管理"
                 ],
                 "summary": "启动域",
@@ -434,6 +468,22 @@ var doc = `{
                         "in": "query",
                         "required": true
                     }
+=======
+                    "服务管理"
+                ],
+                "summary": "grpc服务添加",
+                "operationId": "/grpc/add",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ServiceAddGrpcInput"
+                        }
+                    }
+>>>>>>> Stashed changes
                 ],
                 "responses": {
                     "200": {
@@ -447,7 +497,11 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
+<<<<<<< Updated upstream
                                             "$ref": "#/definitions/dto.HostListOutput"
+=======
+                                            "type": "string"
+>>>>>>> Stashed changes
                                         }
                                     }
                                 }
@@ -458,6 +512,49 @@ var doc = `{
             }
         },
         "/service/service": {
+            "get": {
+                "description": "服务详情",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "服务管理"
+                ],
+                "summary": "服务详情",
+                "operationId": "/service/service/get",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "服务ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dao.ServiceDetail"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
             "delete": {
                 "description": "服务删除",
                 "consumes": [
@@ -470,7 +567,7 @@ var doc = `{
                     "服务管理"
                 ],
                 "summary": "服务删除",
-                "operationId": "/service/service",
+                "operationId": "/service/service/del",
                 "parameters": [
                     {
                         "type": "string",
@@ -523,7 +620,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.ServiceAddHTTPInput"
+                            "$ref": "#/definitions/dto.ServiceUpdateHTTPInput"
                         }
                     }
                 ],
@@ -651,9 +748,337 @@ var doc = `{
                     }
                 }
             }
+        },
+        "/service/statistic": {
+            "get": {
+                "description": "服务统计",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "服务管理"
+                ],
+                "summary": "服务统计",
+                "operationId": "/service/statistic/get",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "服务ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.ServiceStatOutput"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/tcp": {
+            "put": {
+                "description": "tcp服务更新",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "服务管理"
+                ],
+                "summary": "tcp服务更新",
+                "operationId": "/tcp/update",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ServiceUpdateTCPInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "tcp服务添加",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "服务管理"
+                ],
+                "summary": "tcp服务添加",
+                "operationId": "/tcp/add",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ServiceAddTCPInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "dao.AccessControl": {
+            "type": "object",
+            "properties": {
+                "black_list": {
+                    "type": "string"
+                },
+                "clientip_flow_limit": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "open_auth": {
+                    "type": "integer"
+                },
+                "service_flow_limit": {
+                    "type": "integer"
+                },
+                "service_id": {
+                    "type": "integer"
+                },
+                "white_host_name": {
+                    "type": "string"
+                },
+                "white_list": {
+                    "type": "string"
+                }
+            }
+        },
+        "dao.GrpcRule": {
+            "type": "object",
+            "properties": {
+                "header_transfor": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "port": {
+                    "type": "integer"
+                },
+                "service_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dao.HTTPRule": {
+            "type": "object",
+            "properties": {
+                "header_transfor": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "need_https": {
+                    "type": "integer"
+                },
+                "need_strip_uri": {
+                    "type": "integer"
+                },
+                "need_websocket": {
+                    "type": "integer"
+                },
+                "rule": {
+                    "type": "string"
+                },
+                "rule_type": {
+                    "type": "integer"
+                },
+                "service_id": {
+                    "type": "integer"
+                },
+                "url_rewrite": {
+                    "type": "string"
+                }
+            }
+        },
+        "dao.LoadBalance": {
+            "type": "object",
+            "properties": {
+                "check_interval": {
+                    "type": "integer"
+                },
+                "check_method": {
+                    "type": "integer"
+                },
+                "check_timeout": {
+                    "type": "integer"
+                },
+                "forbid_list": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "ip_list": {
+                    "type": "string"
+                },
+                "round_type": {
+                    "type": "integer"
+                },
+                "service_id": {
+                    "type": "integer"
+                },
+                "upstream_connect_timeout": {
+                    "type": "integer"
+                },
+                "upstream_header_timeout": {
+                    "type": "integer"
+                },
+                "upstream_idle_timeout": {
+                    "type": "integer"
+                },
+                "upstream_max_idle": {
+                    "type": "integer"
+                },
+                "weight_list": {
+                    "type": "string"
+                }
+            }
+        },
+        "dao.ServiceDetail": {
+            "type": "object",
+            "properties": {
+                "access_control": {
+                    "type": "object",
+                    "$ref": "#/definitions/dao.AccessControl"
+                },
+                "grpc_rule": {
+                    "type": "object",
+                    "$ref": "#/definitions/dao.GrpcRule"
+                },
+                "http_rule": {
+                    "type": "object",
+                    "$ref": "#/definitions/dao.HTTPRule"
+                },
+                "info": {
+                    "type": "object",
+                    "$ref": "#/definitions/dao.ServiceInfo"
+                },
+                "load_balance": {
+                    "type": "object",
+                    "$ref": "#/definitions/dao.LoadBalance"
+                },
+                "tcp_rule": {
+                    "type": "object",
+                    "$ref": "#/definitions/dao.TCPRule"
+                }
+            }
+        },
+        "dao.ServiceInfo": {
+            "type": "object",
+            "properties": {
+                "create_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_delete": {
+                    "type": "integer"
+                },
+                "load_type": {
+                    "type": "integer"
+                },
+                "service_desc": {
+                    "type": "string"
+                },
+                "service_name": {
+                    "type": "string"
+                },
+                "update_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "dao.TCPRule": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "port": {
+                    "type": "integer"
+                },
+                "service_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "dto.AdminInfoOutput": {
             "type": "object",
             "properties": {
@@ -724,6 +1149,7 @@ var doc = `{
                 }
             }
         },
+<<<<<<< Updated upstream
         "dto.HostListItemOutput": {
             "type": "object",
             "properties": {
@@ -799,6 +1225,59 @@ var doc = `{
                 "status": {
                     "description": "状态信息 bool",
                     "type": "boolean"
+=======
+        "dto.ServiceAddGrpcInput": {
+            "type": "object",
+            "required": [
+                "ip_list",
+                "port",
+                "service_desc",
+                "service_name",
+                "weight_list"
+            ],
+            "properties": {
+                "black_list": {
+                    "type": "string"
+                },
+                "clientip_flow_limit": {
+                    "type": "integer"
+                },
+                "forbid_list": {
+                    "type": "string"
+                },
+                "header_transfor": {
+                    "type": "string"
+                },
+                "ip_list": {
+                    "type": "string"
+                },
+                "open_auth": {
+                    "type": "integer"
+                },
+                "port": {
+                    "type": "integer"
+                },
+                "round_type": {
+                    "type": "integer"
+                },
+                "service_desc": {
+                    "type": "string"
+                },
+                "service_flow_limit": {
+                    "type": "integer"
+                },
+                "service_name": {
+                    "type": "string"
+                },
+                "weight_list": {
+                    "type": "string"
+                },
+                "white_host_name": {
+                    "type": "string"
+                },
+                "white_list": {
+                    "type": "string"
+>>>>>>> Stashed changes
                 }
             }
         },
@@ -898,6 +1377,60 @@ var doc = `{
                 }
             }
         },
+        "dto.ServiceAddTCPInput": {
+            "type": "object",
+            "required": [
+                "ip_list",
+                "port",
+                "service_desc",
+                "service_name",
+                "weight_list"
+            ],
+            "properties": {
+                "black_list": {
+                    "type": "string"
+                },
+                "clientip_flow_limit": {
+                    "type": "integer"
+                },
+                "forbid_list": {
+                    "type": "string"
+                },
+                "header_transfor": {
+                    "type": "string"
+                },
+                "ip_list": {
+                    "type": "string"
+                },
+                "open_auth": {
+                    "type": "integer"
+                },
+                "port": {
+                    "type": "integer"
+                },
+                "round_type": {
+                    "type": "integer"
+                },
+                "service_desc": {
+                    "type": "string"
+                },
+                "service_flow_limit": {
+                    "type": "integer"
+                },
+                "service_name": {
+                    "type": "string"
+                },
+                "weight_list": {
+                    "type": "string"
+                },
+                "white_host_name": {
+                    "type": "string"
+                },
+                "white_list": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.ServiceListItemOutput": {
             "type": "object",
             "properties": {
@@ -948,6 +1481,245 @@ var doc = `{
                 "total": {
                     "description": "总数",
                     "type": "integer"
+                }
+            }
+        },
+        "dto.ServiceStatOutput": {
+            "type": "object",
+            "properties": {
+                "today": {
+                    "description": "今日流量",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "yesterday": {
+                    "description": "昨日流量",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
+        "dto.ServiceUpdateGrpcInput": {
+            "type": "object",
+            "required": [
+                "id",
+                "ip_list",
+                "port",
+                "service_desc",
+                "service_name",
+                "weight_list"
+            ],
+            "properties": {
+                "black_list": {
+                    "type": "string"
+                },
+                "clientip_flow_limit": {
+                    "type": "integer"
+                },
+                "forbid_list": {
+                    "type": "string"
+                },
+                "header_transfor": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "ip_list": {
+                    "type": "string"
+                },
+                "open_auth": {
+                    "type": "integer"
+                },
+                "port": {
+                    "type": "integer"
+                },
+                "round_type": {
+                    "type": "integer"
+                },
+                "service_desc": {
+                    "type": "string"
+                },
+                "service_flow_limit": {
+                    "type": "integer"
+                },
+                "service_name": {
+                    "type": "string"
+                },
+                "weight_list": {
+                    "type": "string"
+                },
+                "white_host_name": {
+                    "type": "string"
+                },
+                "white_list": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.ServiceUpdateHTTPInput": {
+            "type": "object",
+            "required": [
+                "id",
+                "ip_list",
+                "rule",
+                "service_desc",
+                "service_name",
+                "weight_list"
+            ],
+            "properties": {
+                "black_list": {
+                    "description": "黑名单ip",
+                    "type": "string"
+                },
+                "clientip_flow_limit": {
+                    "description": "客户端ip限流",
+                    "type": "integer"
+                },
+                "header_transfor": {
+                    "description": "Header头转换",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "example": 62
+                },
+                "ip_list": {
+                    "description": "ip列表",
+                    "type": "string",
+                    "example": "127.0.0.1:80"
+                },
+                "need_https": {
+                    "description": "是否支持https",
+                    "type": "integer"
+                },
+                "need_strip_uri": {
+                    "description": "启用strip_uri",
+                    "type": "integer"
+                },
+                "need_websocket": {
+                    "description": "是否支持websocket",
+                    "type": "integer"
+                },
+                "open_auth": {
+                    "description": "是否开启权限",
+                    "type": "integer"
+                },
+                "round_type": {
+                    "description": "轮询方式",
+                    "type": "integer"
+                },
+                "rule": {
+                    "description": "接入路径",
+                    "type": "string",
+                    "example": "/test_http_service_indb"
+                },
+                "rule_type": {
+                    "description": "接入类型",
+                    "type": "integer"
+                },
+                "service_desc": {
+                    "description": "服务描述",
+                    "type": "string",
+                    "example": "test_http_service_indb"
+                },
+                "service_flow_limit": {
+                    "description": "服务端ip限流",
+                    "type": "integer"
+                },
+                "service_name": {
+                    "description": "服务名",
+                    "type": "string",
+                    "example": "test_http_service_indb"
+                },
+                "upstream_connect_timeout": {
+                    "description": "建立连接超时(秒)",
+                    "type": "integer"
+                },
+                "upstream_header_timeout": {
+                    "description": "获取header超时(秒)",
+                    "type": "integer"
+                },
+                "upstream_idle_timeout": {
+                    "description": "连接最大空闲时间(秒)",
+                    "type": "integer"
+                },
+                "upstream_max_idle": {
+                    "description": "最大空闲连接数",
+                    "type": "integer"
+                },
+                "url_rewrite": {
+                    "description": "URL重写",
+                    "type": "string"
+                },
+                "weight_list": {
+                    "description": "权重列表",
+                    "type": "string",
+                    "example": "50"
+                },
+                "white_list": {
+                    "description": "白名单ip",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.ServiceUpdateTCPInput": {
+            "type": "object",
+            "required": [
+                "id",
+                "ip_list",
+                "port",
+                "service_desc",
+                "service_name",
+                "weight_list"
+            ],
+            "properties": {
+                "black_list": {
+                    "type": "string"
+                },
+                "clientip_flow_limit": {
+                    "type": "integer"
+                },
+                "forbid_list": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "ip_list": {
+                    "type": "string"
+                },
+                "open_auth": {
+                    "type": "integer"
+                },
+                "port": {
+                    "type": "integer"
+                },
+                "round_type": {
+                    "type": "integer"
+                },
+                "service_desc": {
+                    "type": "string"
+                },
+                "service_flow_limit": {
+                    "type": "integer"
+                },
+                "service_name": {
+                    "type": "string"
+                },
+                "weight_list": {
+                    "type": "string"
+                },
+                "white_host_name": {
+                    "type": "string"
+                },
+                "white_list": {
+                    "type": "string"
                 }
             }
         },

@@ -30,6 +30,14 @@ func (s *ServiceInfo) TableName() string {
 // 通过serviceInfo的外键ID查其他表的关联信息
 // 得到的结果封装到完全体ServiceDetail
 func (s *ServiceInfo) GetServiceDetail(c *gin.Context, tx *gorm.DB, search *ServiceInfo) (*ServiceDetail, error) {
+	if search.ServiceName == "" {
+		info, err := s.Find(c, tx, search)
+		if err != nil {
+			return nil, err
+		}
+		search = info
+	}
+
 	httpRule := &HTTPRule{ServiceID: search.ID}
 	httpRule, err := httpRule.Find(c, tx, httpRule)
 	if err != nil && err != gorm.ErrRecordNotFound { //找不到也是正确的
