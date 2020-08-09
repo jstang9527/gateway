@@ -19,3 +19,14 @@ const (
 	// HTTPRuleTypeDomain 域名接入
 	HTTPRuleTypeDomain = 1
 )
+
+var (
+	// LoadTypeMap ..
+	LoadTypeMap = map[int]string{
+		LoadTypeHTTP: "HTTP",
+		// LoadTypeTCP ...
+		LoadTypeTCP: "TCP",
+		// LoadTypeGRPC ...
+		LoadTypeGRPC: "GRPC",
+	}
+)

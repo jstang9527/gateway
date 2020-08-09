@@ -82,21 +82,26 @@ func TranslationMiddleware() gin.HandlerFunc {
 				return true
 			})
 			val.RegisterValidation("valid_iplist", func(fl validator.FieldLevel) bool {
-				for _, ms := range strings.Split(fl.Field().String(), "\n") {
-					if mathed, _ := regexp.Match(`^\S+:\d+$`, []byte(ms)); !mathed {
-						return mathed
+				if fl.Field().String() == "" {
+					return true
+				}
+				for _, item := range strings.Split(fl.Field().String(), ",") {
+					matched, _ := regexp.Match(`\S+`, []byte(item)) //ip_addr
+					if !matched {
+						return false
 					}
 				}
 				return true
 			})
 			val.RegisterValidation("valid_weightlist", func(fl validator.FieldLevel) bool {
-				for _, ms := range strings.Split(fl.Field().String(), "\n") {
-					if mathed, _ := regexp.Match(`^\d+$`, []byte(ms)); !mathed {
-						return mathed
+				for _, ms := range strings.Split(fl.Field().String(), ",") {
+					if matched, _ := regexp.Match(`^\d+$`, []byte(ms)); !matched {
+						return false
 					}
 				}
 				return true
 			})
+
 			//自定义翻译器
 			//https://github.com/go-playground/validator/blob/v9/_examples/translations/main.go
 			val.RegisterTranslation("valid_username", trans, func(ut ut.Translator) error {

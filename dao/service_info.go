@@ -110,3 +110,12 @@ func (s *ServiceInfo) PageList(c *gin.Context, tx *gorm.DB, search *dto.ServiceL
 	query.Limit(search.PageSize).Offset(offset).Count(&total)
 	return list, total, nil
 }
+
+// GroupBySrvType 分页查询=>得服务数组
+func (s *ServiceInfo) GroupBySrvType(c *gin.Context, tx *gorm.DB) ([]dto.PanelSrvStatItemOutput, error) {
+	list := []dto.PanelSrvStatItemOutput{}
+
+	query := tx.SetCtx(public.GetGinTraceContext(c))
+	err := query.Table(s.TableName()).Where("is_delete=0").Select("load_type, count(*) as value").Group("load_type").Scan(&list).Error
+	return list, err
+}
