@@ -6,7 +6,7 @@ import (
 	"net"
 	"time"
 
-	qemu "github.com/jstang9527/gateway/mico-srv/models"
+	qemu "github.com/jstang9527/gateway/mico-srv/modules"
 	"github.com/jstang9527/gateway/mico-srv/srv/pb"
 	"github.com/jstang9527/opentest/ops"
 	"google.golang.org/grpc"

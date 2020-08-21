@@ -18,6 +18,33 @@ definitions:
       white_list:
         type: string
     type: object
+  dao.ActionItem:
+    properties:
+      action_name:
+        type: string
+      allow_err:
+        type: integer
+      block_id:
+        type: integer
+      element_id:
+        type: string
+      element_value:
+        type: string
+      event_type:
+        type: integer
+      id:
+        type: integer
+      search_type:
+        type: integer
+      timeout:
+        type: integer
+      timestamp:
+        type: string
+      url:
+        type: string
+      xpath:
+        type: string
+    type: object
   dao.App:
     properties:
       app_id:
@@ -39,6 +66,33 @@ definitions:
       update_at:
         type: string
       white_ips:
+        type: string
+    type: object
+  dao.BlockDetail:
+    properties:
+      actions:
+        items:
+          $ref: '#/definitions/dao.ActionItem'
+        type: array
+      info:
+        $ref: '#/definitions/dao.BlockInfo'
+        type: object
+    type: object
+  dao.BlockInfo:
+    properties:
+      block_name:
+        type: string
+      create_at:
+        type: string
+      expect:
+        type: string
+      id:
+        type: integer
+      is_delete:
+        type: integer
+      priority:
+        type: integer
+      update_at:
         type: string
     type: object
   dao.GrpcRule:
@@ -224,6 +278,43 @@ definitions:
     - name
     - secret
     type: object
+  dto.ActionItemInput:
+    properties:
+      action_name:
+        description: 动作名
+        type: string
+      all_err:
+        description: 错误为真
+        type: integer
+      element_id:
+        description: 元素ID
+        type: string
+      element_value:
+        description: 元素值
+        type: string
+      event_type:
+        description: 事件类型
+        type: integer
+      id:
+        type: integer
+      search_type:
+        description: 元素检索方式
+        type: integer
+      timeout:
+        description: 检索超时时间
+        type: integer
+      timestamp:
+        description: 时间戳
+        type: string
+      url:
+        description: 目标网址
+        type: string
+      xpath:
+        description: XPath
+        type: string
+    required:
+    - action_name
+    type: object
   dto.AdminInfoOutput:
     properties:
       avatar:
@@ -264,6 +355,89 @@ definitions:
       token:
         example: token
         type: string
+    type: object
+  dto.BlockListItemOutput:
+    properties:
+      block_name:
+        description: 组件名称
+        type: string
+      expect:
+        description: 期望值
+        type: string
+      id:
+        description: id
+        type: integer
+      priority:
+        description: 重要性
+        type: integer
+    type: object
+  dto.BlockListOutput:
+    properties:
+      list:
+        description: 列表
+        items:
+          $ref: '#/definitions/dto.BlockListItemOutput'
+        type: array
+      total:
+        description: 总数
+        type: integer
+    type: object
+  dto.ChainAddBlockInput:
+    properties:
+      action_chain:
+        description: 动作列表
+        items:
+          $ref: '#/definitions/dto.ActionItemInput'
+        type: array
+      block_name:
+        description: 组件名
+        type: string
+      expect:
+        description: 期望值
+        type: string
+      priority:
+        description: 重要性
+        type: integer
+    required:
+    - block_name
+    type: object
+  dto.ChainAddStreamInput:
+    properties:
+      block_list:
+        description: 组件列表
+        items:
+          type: integer
+        type: array
+      stream_desc:
+        description: 描述
+        type: string
+      stream_name:
+        description: 流水线名
+        type: string
+    required:
+    - stream_name
+    type: object
+  dto.ChainUpdateBlockInput:
+    properties:
+      action_chain:
+        description: 动作列表
+        items:
+          $ref: '#/definitions/dto.ActionItemInput'
+        type: array
+      block_name:
+        description: 组件名
+        type: string
+      expect:
+        description: 期望值
+        type: string
+      id:
+        type: integer
+      priority:
+        description: 重要性
+        type: integer
+    required:
+    - block_name
+    - id
     type: object
   dto.ChangePwdInput:
     properties:
@@ -738,6 +912,32 @@ definitions:
     - today
     - yesterday
     type: object
+  dto.StreamListItemOutput:
+    properties:
+      api:
+        description: 调用API,是给Jenkins调用滴
+        type: string
+      id:
+        description: id
+        type: integer
+      stream_desc:
+        description: 描述
+        type: string
+      stream_name:
+        description: 流水线名称
+        type: string
+    type: object
+  dto.StreamListOutput:
+    properties:
+      list:
+        description: 列表
+        items:
+          $ref: '#/definitions/dto.StreamListItemOutput'
+        type: array
+      total:
+        description: 总数
+        type: integer
+    type: object
   middleware.Response:
     properties:
       data:
@@ -857,10 +1057,10 @@ paths:
     delete:
       consumes:
       - application/json
-      description: 租户删除
+      description: 项目删除
       operationId: /app/delete
       parameters:
-      - description: 租户ID
+      - description: 项目ID
         in: query
         name: id
         required: true
@@ -877,13 +1077,13 @@ paths:
                 data:
                   type: string
               type: object
-      summary: 租户删除
+      summary: 项目删除
       tags:
-      - 租户管理
+      - 项目管理
     post:
       consumes:
       - application/json
-      description: 租户添加
+      description: 项目添加
       operationId: /app/add
       parameters:
       - description: body
@@ -904,13 +1104,13 @@ paths:
                 data:
                   type: string
               type: object
-      summary: 租户添加
+      summary: 项目添加
       tags:
-      - 租户管理
+      - 项目管理
     put:
       consumes:
       - application/json
-      description: 租户更新
+      description: 项目更新
       operationId: /app/update
       parameters:
       - description: body
@@ -931,17 +1131,17 @@ paths:
                 data:
                   type: string
               type: object
-      summary: 租户更新
+      summary: 项目更新
       tags:
-      - 租户管理
+      - 项目管理
   /app/detail:
     get:
       consumes:
       - application/json
-      description: 租户详情
+      description: 项目详情
       operationId: /app/detail
       parameters:
-      - description: 租户ID
+      - description: 项目ID
         in: query
         name: id
         required: true
@@ -958,14 +1158,14 @@ paths:
                 data:
                   $ref: '#/definitions/dao.App'
               type: object
-      summary: 租户详情
+      summary: 项目详情
       tags:
-      - 租户管理
+      - 项目管理
   /app/list:
     get:
       consumes:
       - application/json
-      description: 租户列表
+      description: 项目列表
       operationId: /app/list
       parameters:
       - description: 关键词
@@ -994,17 +1194,17 @@ paths:
                 data:
                   $ref: '#/definitions/dto.APPListOutput'
               type: object
-      summary: 租户列表
+      summary: 项目列表
       tags:
-      - 租户管理
+      - 项目管理
   /app/stat:
     get:
       consumes:
       - application/json
-      description: 租户统计
+      description: 项目统计
       operationId: /stat/get
       parameters:
-      - description: 租户ID
+      - description: 项目ID
         in: query
         name: id
         required: true
@@ -1021,9 +1221,190 @@ paths:
                 data:
                   $ref: '#/definitions/dto.StatisticsOutput'
               type: object
-      summary: 租户统计
+      summary: 项目统计
       tags:
-      - 租户管理
+      - 项目管理
+  /chain/block:
+    get:
+      consumes:
+      - application/json
+      description: 组件详情
+      operationId: /chain/block/get
+      parameters:
+      - description: 组件ID
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middleware.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dao.BlockDetail'
+              type: object
+      summary: 组件详情
+      tags:
+      - Web自动化测试
+    post:
+      consumes:
+      - application/json
+      description: 添加组件
+      operationId: /chain/block/post
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ChainAddBlockInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middleware.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 添加组件
+      tags:
+      - Web自动化测试
+    put:
+      consumes:
+      - application/json
+      description: 组件更新
+      operationId: /chain/block/update
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ChainUpdateBlockInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middleware.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 组件更新
+      tags:
+      - Web自动化测试
+  /chain/block_list:
+    get:
+      consumes:
+      - application/json
+      description: 组件列表
+      operationId: /chain/block_list
+      parameters:
+      - description: 关键词
+        in: query
+        name: info
+        type: string
+      - description: 每页个数
+        in: query
+        name: page_size
+        required: true
+        type: integer
+      - description: 当前页数
+        in: query
+        name: page_no
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middleware.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.BlockListOutput'
+              type: object
+      summary: 组件列表
+      tags:
+      - Web自动化测试
+  /chain/stream:
+    post:
+      consumes:
+      - application/json
+      description: 添加流水线
+      operationId: /chain/stream/post
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ChainAddStreamInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middleware.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 添加流水线
+      tags:
+      - Web自动化测试
+  /chain/stream_list:
+    get:
+      consumes:
+      - application/json
+      description: 流水线列表
+      operationId: /chain/stream_list
+      parameters:
+      - description: 关键词
+        in: query
+        name: info
+        type: string
+      - description: 每页个数
+        in: query
+        name: page_size
+        required: true
+        type: integer
+      - description: 当前页数
+        in: query
+        name: page_no
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middleware.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.StreamListOutput'
+              type: object
+      summary: 流水线列表
+      tags:
+      - Web自动化测试
   /dashboard/flow_stat:
     get:
       consumes:
@@ -1306,6 +1687,55 @@ paths:
       summary: 主机列表
       tags:
       - 主机管理
+  /selm/task:
+    post:
+      consumes:
+      - application/json
+      description: webhook
+      operationId: /selm/task/post
+      parameters:
+      - description: 项目名
+        in: query
+        name: project_name
+        required: true
+        type: string
+      - description: 项目地址
+        in: query
+        name: project_addr
+        type: string
+      - description: web地址
+        in: query
+        name: web_addr
+        required: true
+        type: string
+      - description: 并发数
+        in: query
+        name: sync_num
+        type: integer
+      - description: 检索元素超时时间
+        in: query
+        name: search_timeout
+        type: integer
+      - description: 流水线ID
+        in: query
+        name: stream_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middleware.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: webhook
+      tags:
+      - Web自动化测试
   /service/service:
     delete:
       consumes:

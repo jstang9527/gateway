@@ -96,9 +96,32 @@ func InitRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	{
 		controller.AppRegister(appRouter)
 	}
+	// web自动化测试
+	ChainRouter := router.Group("/chain")
+	ChainRouter.Use(
+		sessions.Sessions("mysession", store),
+		middleware.RecoveryMiddleware(),
+		middleware.RequestLog(),
+		middleware.SessionAuthMiddleware(),
+		middleware.TranslationMiddleware(),
+	)
+	{
+		controller.ChainRegister(ChainRouter)
+	}
+	SelmRouter := router.Group("/selm")
+	SelmRouter.Use(
+		sessions.Sessions("mysession", store),
+		middleware.RecoveryMiddleware(),
+		middleware.RequestLog(),
+		middleware.SessionAuthMiddleware(),
+		middleware.TranslationMiddleware(),
+	)
+	{
+		controller.SelmRegister(SelmRouter)
+	}
 	// 大盘
 	panelRouter := router.Group("/dashboard")
-	appRouter.Use(
+	panelRouter.Use(
 		sessions.Sessions("mysession", store),
 		middleware.RecoveryMiddleware(),
 		middleware.RequestLog(),
@@ -107,5 +130,6 @@ func InitRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	{
 		controller.DashboardRegister(panelRouter)
 	}
+
 	return router
 }

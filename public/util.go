@@ -5,6 +5,7 @@ import (
 	"crypto/sha256"
 	"fmt"
 	"io"
+	"os"
 )
 
 // GetSaltPassword 根据salt和密码得到加盐密码
@@ -22,4 +23,16 @@ func MD5(s string) string {
 	h := md5.New()
 	io.WriteString(h, s)
 	return fmt.Sprintf("%x", h.Sum(nil))
+}
+
+// PathExists 文件或文件夹是否存在
+func PathExists(path string) (bool, error) {
+	_, err := os.Stat(path)
+	if err == nil {
+		return true, nil
+	}
+	if os.IsNotExist(err) {
+		return false, nil
+	}
+	return false, err
 }

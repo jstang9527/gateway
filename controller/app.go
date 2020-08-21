@@ -27,9 +27,9 @@ func AppRegister(router *gin.RouterGroup) {
 }
 
 // AppList godoc
-// @Summary 租户列表
-// @Description 租户列表
-// @Tags 租户管理
+// @Summary 项目列表
+// @Description 项目列表
+// @Tags 项目管理
 // @ID /app/list
 // @Accept  json
 // @Produce  json
@@ -76,13 +76,13 @@ func (admin *AppController) AppList(c *gin.Context) {
 }
 
 // APPDetail godoc
-// @Summary 租户详情
-// @Description 租户详情
-// @Tags 租户管理
+// @Summary 项目详情
+// @Description 项目详情
+// @Tags 项目管理
 // @ID /app/detail
 // @Accept  json
 // @Produce  json
-// @Param id query string true "租户ID"
+// @Param id query string true "项目ID"
 // @Success 200 {object} middleware.Response{data=dao.App} "success"
 // @Router /app/detail [get]
 func (admin *AppController) APPDetail(c *gin.Context) {
@@ -104,13 +104,13 @@ func (admin *AppController) APPDetail(c *gin.Context) {
 }
 
 // APPDelete godoc
-// @Summary 租户删除
-// @Description 租户删除
-// @Tags 租户管理
+// @Summary 项目删除
+// @Description 项目删除
+// @Tags 项目管理
 // @ID /app/delete
 // @Accept  json
 // @Produce  json
-// @Param id query string true "租户ID"
+// @Param id query string true "项目ID"
 // @Success 200 {object} middleware.Response{data=string} "success"
 // @Router /app/app [delete]
 func (admin *AppController) APPDelete(c *gin.Context) {
@@ -137,9 +137,9 @@ func (admin *AppController) APPDelete(c *gin.Context) {
 }
 
 // AppAdd godoc
-// @Summary 租户添加
-// @Description 租户添加
-// @Tags 租户管理
+// @Summary 项目添加
+// @Description 项目添加
+// @Tags 项目管理
 // @ID /app/add
 // @Accept  json
 // @Produce  json
@@ -182,9 +182,9 @@ func (admin *AppController) AppAdd(c *gin.Context) {
 }
 
 // AppUpdate godoc
-// @Summary 租户更新
-// @Description 租户更新
-// @Tags 租户管理
+// @Summary 项目更新
+// @Description 项目更新
+// @Tags 项目管理
 // @ID /app/update
 // @Accept  json
 // @Produce  json
@@ -222,13 +222,13 @@ func (admin *AppController) AppUpdate(c *gin.Context) {
 }
 
 // AppStatistics godoc
-// @Summary 租户统计
-// @Description 租户统计
-// @Tags 租户管理
+// @Summary 项目统计
+// @Description 项目统计
+// @Tags 项目管理
 // @ID /stat/get
 // @Accept  json
 // @Produce  json
-// @Param id query string true "租户ID"
+// @Param id query string true "项目ID"
 // @Success 200 {object} middleware.Response{data=dto.StatisticsOutput} "success"
 // @Router /app/stat [get]
 func (admin *AppController) AppStatistics(c *gin.Context) {

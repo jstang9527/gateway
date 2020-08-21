@@ -32,12 +32,19 @@
         color = false
 
 [cluster]
-    cluster_ip="192.168.231.128"
+    cluster_ip="172.31.50.254"
     cluster_port="8880"
     cluster_ssl_port="4880"
 
+[es]
+    host="172.31.50.254"
+    port=9200
+    index="test"
+    chansize=10000
+    nums=2  
+
 [swagger]
-    title="gateway swagger API"
+    title="opentest swagger API"
     desc="This is a sample server celler server."
-    host="192.168.231.128:8880"
+    host="172.31.50.254:8880"
     base_path=""

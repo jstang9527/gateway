@@ -1,0 +1,22 @@
+syntax = "proto3"; // 指定proto版本
+package pb;     // 指定默认包名
+
+// 指定golang包名
+option go_package = "pb";
+
+// 定义Selenium服务
+service Selenium {
+    // 定义RunTest方法
+    rpc RunTest(SeleniumRequest) returns (SeleniumResponse) {}
+}
+
+// SeleniumRequest 请求结构
+message SeleniumRequest {
+    string url = 1;
+    int32 searchTimeout = 2;
+}
+
+// SeleniumResponse 响应结构
+message SeleniumResponse {
+    string message = 1; //错误信息. nil为成功
+}

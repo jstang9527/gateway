@@ -193,7 +193,7 @@ var doc = `{
         },
         "/app/app": {
             "put": {
-                "description": "租户更新",
+                "description": "项目更新",
                 "consumes": [
                     "application/json"
                 ],
@@ -201,9 +201,9 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "租户管理"
+                    "项目管理"
                 ],
-                "summary": "租户更新",
+                "summary": "项目更新",
                 "operationId": "/app/update",
                 "parameters": [
                     {
@@ -238,7 +238,7 @@ var doc = `{
                 }
             },
             "post": {
-                "description": "租户添加",
+                "description": "项目添加",
                 "consumes": [
                     "application/json"
                 ],
@@ -246,9 +246,9 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "租户管理"
+                    "项目管理"
                 ],
-                "summary": "租户添加",
+                "summary": "项目添加",
                 "operationId": "/app/add",
                 "parameters": [
                     {
@@ -283,7 +283,7 @@ var doc = `{
                 }
             },
             "delete": {
-                "description": "租户删除",
+                "description": "项目删除",
                 "consumes": [
                     "application/json"
                 ],
@@ -291,14 +291,14 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "租户管理"
+                    "项目管理"
                 ],
-                "summary": "租户删除",
+                "summary": "项目删除",
                 "operationId": "/app/delete",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "租户ID",
+                        "description": "项目ID",
                         "name": "id",
                         "in": "query",
                         "required": true
@@ -328,7 +328,7 @@ var doc = `{
         },
         "/app/detail": {
             "get": {
-                "description": "租户详情",
+                "description": "项目详情",
                 "consumes": [
                     "application/json"
                 ],
@@ -336,14 +336,14 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "租户管理"
+                    "项目管理"
                 ],
-                "summary": "租户详情",
+                "summary": "项目详情",
                 "operationId": "/app/detail",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "租户ID",
+                        "description": "项目ID",
                         "name": "id",
                         "in": "query",
                         "required": true
@@ -373,7 +373,7 @@ var doc = `{
         },
         "/app/list": {
             "get": {
-                "description": "租户列表",
+                "description": "项目列表",
                 "consumes": [
                     "application/json"
                 ],
@@ -381,9 +381,9 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "租户管理"
+                    "项目管理"
                 ],
-                "summary": "租户列表",
+                "summary": "项目列表",
                 "operationId": "/app/list",
                 "parameters": [
                     {
@@ -431,7 +431,7 @@ var doc = `{
         },
         "/app/stat": {
             "get": {
-                "description": "租户统计",
+                "description": "项目统计",
                 "consumes": [
                     "application/json"
                 ],
@@ -439,14 +439,14 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "租户管理"
+                    "项目管理"
                 ],
-                "summary": "租户统计",
+                "summary": "项目统计",
                 "operationId": "/stat/get",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "租户ID",
+                        "description": "项目ID",
                         "name": "id",
                         "in": "query",
                         "required": true
@@ -465,6 +465,304 @@ var doc = `{
                                     "properties": {
                                         "data": {
                                             "$ref": "#/definitions/dto.StatisticsOutput"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/chain/block": {
+            "get": {
+                "description": "组件详情",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Web自动化测试"
+                ],
+                "summary": "组件详情",
+                "operationId": "/chain/block/get",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "组件ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dao.BlockDetail"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "组件更新",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Web自动化测试"
+                ],
+                "summary": "组件更新",
+                "operationId": "/chain/block/update",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChainUpdateBlockInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "添加组件",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Web自动化测试"
+                ],
+                "summary": "添加组件",
+                "operationId": "/chain/block/post",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChainAddBlockInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/chain/block_list": {
+            "get": {
+                "description": "组件列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Web自动化测试"
+                ],
+                "summary": "组件列表",
+                "operationId": "/chain/block_list",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "关键词",
+                        "name": "info",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每页个数",
+                        "name": "page_size",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "当前页数",
+                        "name": "page_no",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.BlockListOutput"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/chain/stream": {
+            "post": {
+                "description": "添加流水线",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Web自动化测试"
+                ],
+                "summary": "添加流水线",
+                "operationId": "/chain/stream/post",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChainAddStreamInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/chain/stream_list": {
+            "get": {
+                "description": "流水线列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Web自动化测试"
+                ],
+                "summary": "流水线列表",
+                "operationId": "/chain/stream_list",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "关键词",
+                        "name": "info",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每页个数",
+                        "name": "page_size",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "当前页数",
+                        "name": "page_no",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.StreamListOutput"
                                         }
                                     }
                                 }
@@ -940,6 +1238,83 @@ var doc = `{
                 }
             }
         },
+        "/selm/task": {
+            "post": {
+                "description": "webhook",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Web自动化测试"
+                ],
+                "summary": "webhook",
+                "operationId": "/selm/task/post",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "项目名",
+                        "name": "project_name",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "项目地址",
+                        "name": "project_addr",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "web地址",
+                        "name": "web_addr",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "并发数",
+                        "name": "sync_num",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "检索元素超时时间",
+                        "name": "search_timeout",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "流水线ID",
+                        "name": "stream_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/service/service": {
             "get": {
                 "description": "服务详情",
@@ -1346,6 +1721,47 @@ var doc = `{
                 }
             }
         },
+        "dao.ActionItem": {
+            "type": "object",
+            "properties": {
+                "action_name": {
+                    "type": "string"
+                },
+                "allow_err": {
+                    "type": "integer"
+                },
+                "block_id": {
+                    "type": "integer"
+                },
+                "element_id": {
+                    "type": "string"
+                },
+                "element_value": {
+                    "type": "string"
+                },
+                "event_type": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "search_type": {
+                    "type": "integer"
+                },
+                "timeout": {
+                    "type": "integer"
+                },
+                "timestamp": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "xpath": {
+                    "type": "string"
+                }
+            }
+        },
         "dao.App": {
             "type": "object",
             "properties": {
@@ -1377,6 +1793,47 @@ var doc = `{
                     "type": "string"
                 },
                 "white_ips": {
+                    "type": "string"
+                }
+            }
+        },
+        "dao.BlockDetail": {
+            "type": "object",
+            "properties": {
+                "actions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dao.ActionItem"
+                    }
+                },
+                "info": {
+                    "type": "object",
+                    "$ref": "#/definitions/dao.BlockInfo"
+                }
+            }
+        },
+        "dao.BlockInfo": {
+            "type": "object",
+            "properties": {
+                "block_name": {
+                    "type": "string"
+                },
+                "create_at": {
+                    "type": "string"
+                },
+                "expect": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_delete": {
+                    "type": "integer"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "update_at": {
                     "type": "string"
                 }
             }
@@ -1656,6 +2113,57 @@ var doc = `{
                 }
             }
         },
+        "dto.ActionItemInput": {
+            "type": "object",
+            "required": [
+                "action_name"
+            ],
+            "properties": {
+                "action_name": {
+                    "description": "动作名",
+                    "type": "string"
+                },
+                "all_err": {
+                    "description": "错误为真",
+                    "type": "integer"
+                },
+                "element_id": {
+                    "description": "元素ID",
+                    "type": "string"
+                },
+                "element_value": {
+                    "description": "元素值",
+                    "type": "string"
+                },
+                "event_type": {
+                    "description": "事件类型",
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "search_type": {
+                    "description": "元素检索方式",
+                    "type": "integer"
+                },
+                "timeout": {
+                    "description": "检索超时时间",
+                    "type": "integer"
+                },
+                "timestamp": {
+                    "description": "时间戳",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "目标网址",
+                    "type": "string"
+                },
+                "xpath": {
+                    "description": "XPath",
+                    "type": "string"
+                }
+            }
+        },
         "dto.AdminInfoOutput": {
             "type": "object",
             "properties": {
@@ -1711,6 +2219,124 @@ var doc = `{
                 "token": {
                     "type": "string",
                     "example": "token"
+                }
+            }
+        },
+        "dto.BlockListItemOutput": {
+            "type": "object",
+            "properties": {
+                "block_name": {
+                    "description": "组件名称",
+                    "type": "string"
+                },
+                "expect": {
+                    "description": "期望值",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "id",
+                    "type": "integer"
+                },
+                "priority": {
+                    "description": "重要性",
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.BlockListOutput": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "description": "列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.BlockListItemOutput"
+                    }
+                },
+                "total": {
+                    "description": "总数",
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.ChainAddBlockInput": {
+            "type": "object",
+            "required": [
+                "block_name"
+            ],
+            "properties": {
+                "action_chain": {
+                    "description": "动作列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.ActionItemInput"
+                    }
+                },
+                "block_name": {
+                    "description": "组件名",
+                    "type": "string"
+                },
+                "expect": {
+                    "description": "期望值",
+                    "type": "string"
+                },
+                "priority": {
+                    "description": "重要性",
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.ChainAddStreamInput": {
+            "type": "object",
+            "required": [
+                "stream_name"
+            ],
+            "properties": {
+                "block_list": {
+                    "description": "组件列表",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "stream_desc": {
+                    "description": "描述",
+                    "type": "string"
+                },
+                "stream_name": {
+                    "description": "流水线名",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.ChainUpdateBlockInput": {
+            "type": "object",
+            "required": [
+                "block_name",
+                "id"
+            ],
+            "properties": {
+                "action_chain": {
+                    "description": "动作列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.ActionItemInput"
+                    }
+                },
+                "block_name": {
+                    "description": "组件名",
+                    "type": "string"
+                },
+                "expect": {
+                    "description": "期望值",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "priority": {
+                    "description": "重要性",
+                    "type": "integer"
                 }
             }
         },
@@ -2374,6 +3000,43 @@ var doc = `{
                     "items": {
                         "type": "integer"
                     }
+                }
+            }
+        },
+        "dto.StreamListItemOutput": {
+            "type": "object",
+            "properties": {
+                "api": {
+                    "description": "调用API,是给Jenkins调用滴",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "id",
+                    "type": "integer"
+                },
+                "stream_desc": {
+                    "description": "描述",
+                    "type": "string"
+                },
+                "stream_name": {
+                    "description": "流水线名称",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.StreamListOutput": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "description": "列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.StreamListItemOutput"
+                    }
+                },
+                "total": {
+                    "description": "总数",
+                    "type": "integer"
                 }
             }
         },
